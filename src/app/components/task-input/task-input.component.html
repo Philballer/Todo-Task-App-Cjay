@@ -1,0 +1,6 @@
+<input #taskInput type="text" placeholder="Enter a task" />
+<app-button
+  (onButtonCLick)="handleAddTaskButtonClicked(taskInput)"
+  buttonName="Add Task"
+  buttonClass="add-button"
+></app-button>

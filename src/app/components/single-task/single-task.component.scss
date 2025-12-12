@@ -1,0 +1,18 @@
+.single-task-container {
+  padding: 15px 12px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 18px;
+
+  .task-text {
+    font-weight: 500;
+    font-size: 25px;
+  }
+
+  .first-button {
+    margin-right: 10px;
+  }
+}

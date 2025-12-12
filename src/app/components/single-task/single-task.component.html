@@ -1,0 +1,19 @@
+<div class="single-task-container">
+  <p class="task-text">
+    {{ taskName }}
+  </p>
+  <div class="button-container">
+    <span class="first-button">
+      <app-button
+        (onButtonCLick)="handleButtonClicked(1)"
+        buttonName="Edit"
+        buttonClass="primary-button"
+      ></app-button>
+    </span>
+    <app-button
+      (onButtonCLick)="handleButtonClicked(0)"
+      buttonName="Delete"
+      buttonClass="primary-button"
+    ></app-button>
+  </div>
+</div>

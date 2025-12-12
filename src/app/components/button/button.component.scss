@@ -1,0 +1,23 @@
+button {
+  outline: none;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 13px;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:active {
+    transform: scale(0.95);
+  }
+}
+
+.primary-button {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.add-button {
+  background-color: var(--add-color);
+  color: white;
+}

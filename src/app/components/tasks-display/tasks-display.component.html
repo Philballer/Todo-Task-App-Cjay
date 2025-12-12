@@ -1,0 +1,8 @@
+<div class="displayer">
+  @for(data of taskService.Tasks(); track $index) {
+  <app-single-task
+    (editOrDeleteButtonsClicked)="handleSideButtonsClicked($event, $index)"
+    [taskName]="data.taskname"
+  ></app-single-task>
+  }
+</div>
