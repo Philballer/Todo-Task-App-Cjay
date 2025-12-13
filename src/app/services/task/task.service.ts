@@ -1,4 +1,5 @@
 import { Injectable, signal } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 
 export interface Task {
   taskname: string;
@@ -8,6 +9,12 @@ export interface Task {
   providedIn: 'root',
 })
 export class TaskService {
+  private taskToEdit = new BehaviorSubject<{
+    value: string;
+    index: number;
+  } | null>(null);
+  public taskToEdit$ = this.taskToEdit.asObservable();
+
   public Tasks = signal<Task[]>([
     { taskname: 'Do Homework' },
     { taskname: 'Wash Clothes' },
@@ -24,10 +31,18 @@ export class TaskService {
   }
 
   public editTask(index: number): void {
-    console.log('edit', index);
+    this.taskToEdit.next({ value: this.Tasks()[index].taskname, index });
   }
 
   public deleteTask(index: number): void {
     this.Tasks.update((tasks) => tasks.filter((_, i) => i !== index));
+  }
+
+  public replaceEditedTask(idx: number, updatedValue: string): void {
+    this.Tasks.update((tasks) =>
+      tasks.map((task, i) =>
+        i === idx ? { ...task, taskname: updatedValue } : task
+      )
+    );
   }
 }

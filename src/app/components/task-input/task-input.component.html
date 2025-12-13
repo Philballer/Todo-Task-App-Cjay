@@ -1,6 +1,12 @@
-<input #taskInput type="text" placeholder="Enter a task" />
+<input
+  (keydown.enter)="handleAddTaskButtonClicked(taskInput)"
+  (input)="controlInputState(taskInput.value)"
+  #taskInput
+  type="text"
+  placeholder="Enter a task"
+/>
 <app-button
   (onButtonCLick)="handleAddTaskButtonClicked(taskInput)"
-  buttonName="Add Task"
+  [buttonName]="editMode() ? 'Update Task' : 'Add Task'"
   buttonClass="add-button"
 ></app-button>
