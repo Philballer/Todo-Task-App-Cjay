@@ -9,6 +9,4 @@ import { TasksDisplayComponent } from './components/tasks-display/tasks-display.
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
-export class AppComponent {
-  title = 'TO DO List';
-}
+export class AppComponent {}

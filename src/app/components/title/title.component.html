@@ -1,3 +1,29 @@
-<h1>
-  {{ headerTitle }}
-</h1>
+<div class="header">
+  <div class="header-top">
+    <div>
+      <p class="date">{{ today }}</p>
+      <h1 class="title">My Tasks</h1>
+    </div>
+    @if (total() > 0) {
+      <div class="progress-ring-wrap">
+        <svg class="progress-ring" viewBox="0 0 44 44">
+          <circle class="ring-track" cx="22" cy="22" r="18" />
+          <circle
+            class="ring-fill"
+            cx="22" cy="22" r="18"
+            [style.stroke-dashoffset]="113.1 - (113.1 * done() / total())"
+          />
+        </svg>
+        <span class="ring-label">{{ done() }}/{{ total() }}</span>
+      </div>
+    }
+  </div>
+
+  <div class="chips">
+    <span class="chip chip--total">{{ total() }} total</span>
+    <span class="chip chip--active">{{ remaining() }} left</span>
+    @if (done() > 0) {
+      <span class="chip chip--done">{{ done() }} done</span>
+    }
+  </div>
+</div>

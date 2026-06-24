@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
+import { TaskService } from '../../services/task/task.service';
 
 @Component({
   selector: 'app-title',
@@ -7,6 +8,15 @@ import { Component, Input } from '@angular/core';
   styleUrl: './title.component.scss',
 })
 export class TitleComponent {
-  @Input()
-  headerTitle: string = 'Default title inside the title component';
+  private taskService = inject(TaskService);
+
+  today = new Date().toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+  });
+
+  total = computed(() => this.taskService.Tasks().length);
+  remaining = computed(() => this.taskService.Tasks().filter((t) => !t.completed).length);
+  done = computed(() => this.taskService.Tasks().filter((t) => t.completed).length);
 }

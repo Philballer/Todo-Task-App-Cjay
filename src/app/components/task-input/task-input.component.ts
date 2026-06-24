@@ -1,10 +1,4 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, ElementRef, OnInit, signal, ViewChild } from '@angular/core';
 import { ButtonComponent } from '../button/button.component';
 import { TaskService } from '../../services/task/task.service';
 import { EasySubscribeComponent } from '../easy-subscribe/easy-subscribe.component';
@@ -16,44 +10,66 @@ import { takeUntil } from 'rxjs';
   templateUrl: './task-input.component.html',
   styleUrl: './task-input.component.scss',
 })
-export class TaskInputComponent
-  extends EasySubscribeComponent
-  implements OnInit
-{
+export class TaskInputComponent extends EasySubscribeComponent implements OnInit {
   @ViewChild('taskInput')
   private taskInputElement: ElementRef<HTMLInputElement> | null = null;
+
   public editMode = signal<boolean>(false);
-  public currentEditedTaskIndex = signal<number | null>(null);
+  public currentEditedTaskId = signal<number | null>(null);
+  public errorMessage = signal<string | null>(null);
+  public hasError = signal<boolean>(false);
 
   constructor(private taskService: TaskService) {
     super();
   }
 
   ngOnInit(): void {
-    this.taskService.taskToEdit$
-      .pipe(takeUntil(this.destroyed$))
-      .subscribe((value) => {
-        if (value && this.taskInputElement) {
-          this.taskInputElement.nativeElement.value = value.value;
-          this.currentEditedTaskIndex.set(value.index);
-          this.editMode.set(true);
-        }
-      });
+    this.taskService.taskToEdit$.pipe(takeUntil(this.destroyed$)).subscribe((value) => {
+      if (value && this.taskInputElement) {
+        this.taskInputElement.nativeElement.value = value.value;
+        this.taskInputElement.nativeElement.focus();
+        this.currentEditedTaskId.set(value.id);
+        this.editMode.set(true);
+        this.clearError();
+      }
+    });
   }
 
   handleAddTaskButtonClicked(element: HTMLInputElement): void {
-    const index = this.currentEditedTaskIndex();
+    if (!element.value.trim()) {
+      this.hasError.set(true);
+      this.errorMessage.set(
+        this.editMode()
+          ? "Task name can't be empty — enter a new name to update."
+          : 'Please enter a task before adding.',
+      );
+      return;
+    }
 
+    const id = this.currentEditedTaskId();
     this.editMode()
-      ? this.taskService.replaceEditedTask(index ?? 0, element.value)
-      : this.taskService.addTask(element.value);
+      ? this.taskService.replaceEditedTask(id ?? 0, element.value.trim())
+      : this.taskService.addTask(element.value.trim());
+
     this.editMode.set(false);
+    this.currentEditedTaskId.set(null);
     element.value = '';
+    this.clearError();
+  }
+
+  cancelEdit(element: HTMLInputElement): void {
+    this.editMode.set(false);
+    this.currentEditedTaskId.set(null);
+    element.value = '';
+    this.clearError();
   }
 
   controlInputState(value: string): void {
-    if (value === '') {
-      this.editMode.set(false);
-    }
+    if (value.trim()) this.clearError();
+  }
+
+  private clearError(): void {
+    this.hasError.set(false);
+    this.errorMessage.set(null);
   }
 }

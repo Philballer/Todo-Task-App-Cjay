@@ -1,9 +1,118 @@
-input {
-  padding: 12px;
-  outline: none;
-  border: 1px solid lightgrey;
-  width: 100%;
-  border-radius: 5px;
-  font-size: 18px;
-  margin-bottom: 15px;
+.input-wrap {
+  margin-bottom: 20px;
+  transition: all 0.2s ease;
+
+  &.editing {
+    .input-row input {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+    }
+  }
+}
+
+.edit-badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--primary);
+  background: var(--primary-light);
+  padding: 3px 8px;
+  border-radius: 20px;
+  margin-bottom: 8px;
+}
+
+.input-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+
+  input {
+    flex: 1;
+    padding: 13px 16px;
+    outline: none;
+    border: 1.5px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 15px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--task-bg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+
+    &::placeholder {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    &:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+      background: white;
+    }
+
+    &.input-error {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 3px var(--danger-light);
+    }
+  }
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 18px;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.1s, box-shadow 0.15s;
+  white-space: nowrap;
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 2px 8px rgba(108, 99, 255, 0.35);
+
+  &:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 14px rgba(108, 99, 255, 0.45);
+  }
+}
+
+.btn-ghost {
+  background: var(--task-bg);
+  color: var(--text-muted);
+  border: 1.5px solid var(--border);
+
+  &:hover {
+    background: var(--border);
+    color: var(--text);
+  }
+}
+
+.error-message {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--danger);
+  margin-top: 8px;
+  padding-left: 2px;
 }

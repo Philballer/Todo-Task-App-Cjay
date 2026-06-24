@@ -1,8 +1,46 @@
-<div class="displayer">
-  @for(data of taskService.Tasks(); track $index) {
-  <app-single-task
-    (editOrDeleteButtonsClicked)="handleSideButtonsClicked($event, $index)"
-    [taskName]="data.taskname"
-  ></app-single-task>
+<div class="filters">
+  @for (f of filters; track f) {
+    <button
+      class="filter-btn"
+      [class.active]="activeFilter() === f"
+      (click)="setFilter(f)"
+    >
+      {{ f | titlecase }}
+      <span class="filter-count">{{ counts()[f] }}</span>
+    </button>
   }
 </div>
+
+@if (taskService.isLoading()) {
+  <div class="loading">
+    <div class="spinner"></div>
+    <span>Loading tasks…</span>
+  </div>
+} @else if (filteredTasks().length === 0) {
+  <div class="empty-state">
+    @if (taskService.Tasks().length === 0) {
+      <div class="empty-icon">✦</div>
+      <p class="empty-title">All clear!</p>
+      <p class="empty-sub">Add your first task above to get started.</p>
+    } @else {
+      <div class="empty-icon">{{ activeFilter() === 'done' ? '○' : '✓' }}</div>
+      <p class="empty-title">Nothing here</p>
+      <p class="empty-sub">
+        {{ activeFilter() === 'done' ? 'Complete a task to see it here.' : 'All tasks are done — great work!' }}
+      </p>
+    }
+  </div>
+} @else {
+  <div cdkDropList (cdkDropListDropped)="drop($event)" class="task-list">
+    @for (task of filteredTasks(); track task.id) {
+      <div cdkDrag class="task-drag-item">
+        <app-single-task
+          (taskAction)="handleTaskAction($event, task)"
+          [taskName]="task.taskname"
+          [completed]="task.completed ?? false"
+        ></app-single-task>
+        <div class="drag-placeholder" *cdkDragPlaceholder></div>
+      </div>
+    }
+  </div>
+}
