@@ -1,20 +1,123 @@
-.single-task-container {
-  padding: 15px 12px;
-  background-color: #f2f2f2;
-  border-radius: 5px;
+.task-card {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  margin-bottom: 18px;
-  overflow: hidden;
+  gap: 12px;
+  padding: 14px 14px 14px 14px;
+  background: var(--task-bg);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 10px;
   cursor: grab;
+  transition: box-shadow 0.15s, border-color 0.15s, background 0.2s;
 
-  .task-text {
-    font-weight: 500;
-    font-size: 25px;
+  &:hover {
+    box-shadow: var(--shadow-md);
+    border-color: #d0cffe;
+    background: white;
+
+    .actions {
+      opacity: 1;
+    }
   }
 
-  .first-button {
-    margin-right: 10px;
+  &:active {
+    cursor: grabbing;
+  }
+
+  &.is-done {
+    background: #fafafa;
+    border-color: #efefef;
+
+    .task-name {
+      text-decoration: line-through;
+      color: var(--completed-text);
+    }
+
+    &:hover {
+      box-shadow: none;
+      border-color: #e5e5e5;
+    }
+  }
+}
+
+/* completion toggle */
+.toggle {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s, background 0.15s, transform 0.1s;
+  color: white;
+
+  &:hover {
+    border-color: var(--success);
+    background: var(--success-light);
+  }
+
+  &:active {
+    transform: scale(0.88);
+  }
+
+  &.checked {
+    background: var(--success);
+    border-color: var(--success);
+  }
+}
+
+/* task name */
+.task-name {
+  flex: 1;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text);
+  transition: color 0.2s, text-decoration 0.2s;
+  word-break: break-word;
+}
+
+/* action buttons */
+.actions {
+  display: flex;
+  gap: 4px;
+  flex-shrink: 0;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.action-btn {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.12s, color 0.12s, transform 0.1s;
+
+  &:active {
+    transform: scale(0.9);
+  }
+}
+
+.edit-btn {
+  color: var(--primary);
+
+  &:hover {
+    background: var(--primary-light);
+  }
+}
+
+.delete-btn {
+  color: var(--danger);
+
+  &:hover {
+    background: var(--danger-light);
   }
 }
