@@ -4,7 +4,11 @@
   #taskInput
   type="text"
   placeholder="Enter a task"
+  [class.input-error]="hasError()"
 />
+@if (errorMessage()) {
+  <p class="error-message">{{ errorMessage() }}</p>
+}
 <app-button
   (onButtonCLick)="handleAddTaskButtonClicked(taskInput)"
   [buttonName]="editMode() ? 'Update Task' : 'Add Task'"

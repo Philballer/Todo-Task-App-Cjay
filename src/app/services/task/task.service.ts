@@ -34,10 +34,6 @@ export class TaskService {
   }
 
   public addTask(text: string): void {
-    if (!text?.trim()) {
-      alert('Text is empty');
-      return;
-    }
     this.http.post<Task>(this.apiUrl, { taskname: text }).subscribe((task) => {
       this.Tasks.update((tasks) => [...tasks, task]);
     });
