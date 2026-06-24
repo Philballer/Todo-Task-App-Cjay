@@ -4,13 +4,14 @@ import { SingleTaskComponent } from '../single-task/single-task.component';
 import {
   CdkDrag,
   CdkDragDrop,
+  CdkDragPlaceholder,
   CdkDropList,
   moveItemInArray,
 } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-tasks-display',
-  imports: [SingleTaskComponent, CdkDrag, CdkDropList],
+  imports: [SingleTaskComponent, CdkDrag, CdkDropList, CdkDragPlaceholder],
   templateUrl: './tasks-display.component.html',
   styleUrl: './tasks-display.component.scss',
 })
