@@ -23,7 +23,7 @@ export class TaskInputComponent
   @ViewChild('taskInput')
   private taskInputElement: ElementRef<HTMLInputElement> | null = null;
   public editMode = signal<boolean>(false);
-  public currentEditedTaskIndex = signal<number | null>(null);
+  public currentEditedTaskId = signal<number | null>(null);
 
   constructor(private taskService: TaskService) {
     super();
@@ -35,17 +35,17 @@ export class TaskInputComponent
       .subscribe((value) => {
         if (value && this.taskInputElement) {
           this.taskInputElement.nativeElement.value = value.value;
-          this.currentEditedTaskIndex.set(value.index);
+          this.currentEditedTaskId.set(value.id);
           this.editMode.set(true);
         }
       });
   }
 
   handleAddTaskButtonClicked(element: HTMLInputElement): void {
-    const index = this.currentEditedTaskIndex();
+    const id = this.currentEditedTaskId();
 
     this.editMode()
-      ? this.taskService.replaceEditedTask(index ?? 0, element.value)
+      ? this.taskService.replaceEditedTask(id ?? 0, element.value)
       : this.taskService.addTask(element.value);
     this.editMode.set(false);
     element.value = '';

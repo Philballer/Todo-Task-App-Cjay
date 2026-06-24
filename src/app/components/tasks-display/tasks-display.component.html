@@ -1,6 +1,7 @@
-<div class="displayer">
+<div cdkDropList (cdkDropListDropped)="drop($event)" class="displayer">
   @for(data of taskService.Tasks(); track $index) {
   <app-single-task
+    cdkDrag
     (editOrDeleteButtonsClicked)="handleSideButtonsClicked($event, $index)"
     [taskName]="data.taskname"
   ></app-single-task>
